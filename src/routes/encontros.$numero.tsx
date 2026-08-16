@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Target, Layers, Compass, Hammer, PackageCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Target, Layers, Compass, Hammer, PackageCheck, PenTool } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Reveal } from "@/components/site/Reveal";
 import { Materiais } from "@/components/site/Materiais";
@@ -160,13 +160,52 @@ function EncontroPage() {
           );
         })}
 
+        {encontro.numero === 5 && (
+          <Reveal>
+            <article className="glass card-lift rounded-3xl p-6 transition-all duration-300 hover:border-primary/20">
+              <div className="flex items-start gap-4">
+                <span
+                  className="flex size-11 shrink-0 items-center justify-center rounded-2xl"
+                  style={{
+                    color: fase.cor,
+                    background: `color-mix(in oklab, ${fase.cor} 14%, transparent)`,
+                  }}
+                  aria-hidden="true"
+                >
+                  <PenTool className="size-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-lg font-semibold tracking-[0.08em] uppercase">
+                    Oficina de Ícones
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+                    Guia prático para criação de ícones personalizados para web e apps, com fundamentos,
+                    bibliotecas de referência, construção no Figma, customização, exportação, acessibilidade
+                    e exercícios.
+                  </p>
+                  <a
+                    href="/oficina-icones-uiux.html"
+                    className="press-scale mt-5 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    style={{
+                      color: "var(--background)",
+                      background: fase.cor,
+                      outlineColor: fase.cor,
+                    }}
+                  >
+                    Abrir oficina
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          </Reveal>
+        )}
+
         {materiais.length > 0 && (
           <Reveal>
             <Materiais materiais={materiais} cor={fase.cor} />
           </Reveal>
         )}
-
-
 
         <nav className="mt-6 grid gap-3 sm:grid-cols-2">
           {anterior ? (

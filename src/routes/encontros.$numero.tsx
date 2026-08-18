@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Target, Layers, Compass, Hammer, PackageCheck, PenTool } from "lucide-react";
+import { ArrowLeft, ArrowRight, Target, Layers, Compass, Hammer, PackageCheck, PenTool, Bot } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Reveal } from "@/components/site/Reveal";
 import { Materiais } from "@/components/site/Materiais";
@@ -159,6 +159,47 @@ function EncontroPage() {
             </Reveal>
           );
         })}
+
+        {encontro.numero === 3 && (
+          <Reveal>
+            <article className="glass card-lift rounded-3xl p-6 transition-all duration-300 hover:border-primary/20">
+              <div className="flex items-start gap-4">
+                <span
+                  className="flex size-11 shrink-0 items-center justify-center rounded-2xl"
+                  style={{
+                    color: fase.cor,
+                    background: `color-mix(in oklab, ${fase.cor} 14%, transparent)`,
+                  }}
+                  aria-hidden="true"
+                >
+                  <Bot className="size-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-lg font-semibold tracking-[0.08em] uppercase">
+                    Do Superprompt ao Portfólio no Ar
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+                    Oficina prática sobre o ecossistema de IA e Interfaces: Google AI Studio, Supabase,
+                    GitHub, Vercel e ferramentas de assistência ao código para transformar o superprompt
+                    em um portfólio funcional, publicá-lo e depois assumir conscientemente seu Design System.
+                  </p>
+                  <a
+                    href="/oficina-ia-interfaces-portfolio.html"
+                    className="press-scale mt-5 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    style={{
+                      color: "var(--background)",
+                      background: fase.cor,
+                      outlineColor: fase.cor,
+                    }}
+                  >
+                    Abrir oficina
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          </Reveal>
+        )}
 
         {encontro.numero === 5 && (
           <Reveal>

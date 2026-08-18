@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Superprompt ao Portfólio no Ar — LabInterface | DDI UFSM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tech-cyan: #00FFFF;
+            --tech-blue: #1A1A30;
+            --tech-purple: #2A2A50;
+            --comfort-oat: #D2A979;
+            --comfort-clay: #F48A79;
+            --comfort-green: #86EFAC;
+            --bg-dark: #0F0F1A;
+            --bg-card: #1A1A30;
+            --text-primary: #F0F0F5;
+            --text-secondary: #A0A0B8;
+            --border: #2A2A50;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .skip-link {
+            position: absolute; top: -40px; left: 0;
+            background: var(--tech-cyan); color: var(--tech-blue);
+            padding: 8px 16px; z-index: 100; transition: top 0.3s;
+        }
+        .skip-link:focus { top: 0; }
+        header {
+            background: linear-gradient(135deg, var(--tech-blue) 0%, var(--tech-purple) 100%);
+            padding: 80px 24px 60px; text-align: center;
+            border-bottom: 2px solid var(--tech-cyan);
+        }
+        .badge {
+            display: inline-block; background: var(--tech-cyan); color: var(--tech-blue);
+            padding: 6px 18px; border-radius: 100px; font-size: 0.75rem;
+            font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800;
+            line-height: 1.1; margin-bottom: 16px; color: var(--text-primary);
+        }
+        .subtitle {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 640px; margin: 0 auto; font-weight: 300;
+        }
+        nav {
+            background: var(--bg-card); padding: 16px 24px;
+            position: sticky; top: 0; z-index: 50;
+            border-bottom: 1px solid var(--border); overflow-x: auto;
+        }
+        nav ul {
+            list-style: none; display: flex; gap: 8px;
+            justify-content: center; flex-wrap: wrap;
+            max-width: 1200px; margin: 0 auto;
+        }
+        nav a {
+            color: var(--text-secondary); text-decoration: none;
+            padding: 8px 16px; border-radius: 8px; font-size: 0.85rem;
+            font-weight: 500; transition: all 0.2s; white-space: nowrap;
+        }
+        nav a:hover, nav a:focus {
+            background: var(--tech-purple); color: var(--tech-cyan);
+            outline: 2px solid var(--tech-cyan); outline-offset: 2px;
+        }
+        main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+        section { margin-bottom: 64px; }
+        h2 {
+            font-size: 1.75rem; font-weight: 700; color: var(--tech-cyan);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 12px;
+        }
+        h2 .numero {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; background: var(--tech-cyan);
+            color: var(--tech-blue); border-radius: 12px;
+            font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+        }
+        h3 { font-size: 1.25rem; font-weight: 600; color: var(--comfort-oat); margin: 32px 0 12px; }
+        h4 { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin: 24px 0 8px; }
+        p { margin-bottom: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); font-weight: 600; }
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 28px; margin: 20px 0;
+        }
+        .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .mini-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; transition: border-color 0.2s;
+        }
+        .mini-card:hover { border-color: var(--tech-cyan); }
+        .mini-card h4 { margin: 0 0 8px; color: var(--tech-cyan); }
+        .mini-card p { margin: 0; font-size: 0.9rem; }
+        .passo {
+            background: var(--bg-card); border-left: 4px solid var(--tech-cyan);
+            border-radius: 0 12px 12px 0; padding: 24px 28px; margin: 16px 0;
+        }
+        .passo-numero {
+            display: inline-block; background: var(--tech-cyan); color: var(--tech-blue);
+            padding: 2px 12px; border-radius: 6px; font-size: 0.8rem;
+            font-weight: 700; margin-bottom: 8px;
+        }
+        .passo h4 { margin: 0 0 8px; color: var(--text-primary); }
+        .passo p { margin: 0; }
+        ul, ol { margin: 12px 0 12px 24px; color: var(--text-secondary); }
+        li { margin-bottom: 8px; }
+        .comando {
+            background: var(--tech-blue); border: 1px solid var(--tech-purple);
+            border-radius: 8px; padding: 12px 16px;
+            font-family: 'Lexend', sans-serif; font-size: 0.9rem;
+            color: var(--tech-cyan); margin: 12px 0; display: block;
+        }
+        .atalho {
+            display: inline-block; background: var(--tech-purple);
+            color: var(--tech-cyan); padding: 2px 8px;
+            border-radius: 4px; font-size: 0.85rem; font-weight: 600;
+        }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+        th {
+            background: var(--tech-purple); color: var(--tech-cyan);
+            text-align: left; padding: 12px 16px; font-weight: 600;
+        }
+        td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+        tr:hover td { background: rgba(42, 42, 80, 0.3); }
+        .alert {
+            border-radius: 12px; padding: 20px 24px; margin: 20px 0;
+            display: flex; gap: 16px; align-items: flex-start;
+        }
+        .alert-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .alert-info { background: rgba(0, 255, 255, 0.08); border: 1px solid var(--tech-cyan); }
+        .alert-warm { background: rgba(244, 138, 121, 0.08); border: 1px solid var(--comfort-clay); }
+        .alert-success { background: rgba(134, 239, 172, 0.08); border: 1px solid var(--comfort-green); }
+        .alert h4 { margin: 0 0 4px; }
+        .alert p { margin: 0; }
+        .cores { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+        .cor { text-align: center; }
+        .cor-box { width: 80px; height: 80px; border-radius: 12px; border: 2px solid var(--border); margin-bottom: 6px; }
+        .cor-label { font-size: 0.7rem; color: var(--text-secondary); font-weight: 500; }
+        .cor-hex { font-size: 0.65rem; color: var(--text-secondary); opacity: 0.7; }
+        .checklist { list-style: none; margin: 16px 0; padding: 0; }
+        .checklist li {
+            padding: 10px 0 10px 36px; position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist li::before {
+            content: "☐"; position: absolute; left: 0;
+            color: var(--tech-cyan); font-size: 1.2rem;
+        }
+        footer {
+            background: var(--tech-blue); border-top: 1px solid var(--border);
+            padding: 40px 24px; text-align: center;
+            color: var(--text-secondary); font-size: 0.85rem;
+        }
+        @media (max-width: 600px) {
+            header { padding: 48px 20px 40px; }
+            .card { padding: 20px; }
+            .passo { padding: 18px 20px; }
+        }
+        a:focus, button:focus { outline: 2px solid var(--tech-cyan); outline-offset: 2px; }
+        hr { border: none; height: 1px; background: var(--border); margin: 48px 0; }
+        .highlight { background: rgba(0, 255, 255, 0.1); padding: 2px 6px; border-radius: 4px; color: var(--tech-cyan); }
+        .exercicio-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 28px; margin: 20px 0;
+            border-left: 4px solid var(--comfort-oat);
+        }
+        .exercicio-card h4 { color: var(--comfort-oat); margin-top: 0; }
+
+        .btn-row { display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 4px; }
+        .btn { display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:700; font-size:.9rem; border-radius:10px; padding:11px 16px; transition:.2s; }
+        .btn-primary { background:var(--tech-cyan); color:var(--tech-blue); }
+        .btn-secondary { background:var(--tech-purple); color:var(--text-primary); border:1px solid var(--border); }
+        .btn:hover { transform:translateY(-1px); filter:brightness(1.06); }
+        .pipeline { display:grid; grid-template-columns:repeat(6,minmax(110px,1fr)); gap:10px; margin:28px 0; }
+        .pipeline-step { position:relative; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:16px 12px; min-height:132px; }
+        .pipeline-step .pnum { color:var(--tech-cyan); font-weight:800; font-size:.76rem; letter-spacing:.08em; }
+        .pipeline-step b { display:block; margin:8px 0 5px; font-size:.92rem; }
+        .pipeline-step small { color:var(--text-secondary); line-height:1.4; display:block; }
+        .pipeline-step:not(:last-child)::after { content:'→'; position:absolute; right:-11px; top:50%; transform:translateY(-50%); color:var(--tech-cyan); z-index:4; font-weight:800; }
+        .tool-card { display:grid; grid-template-columns:58px 1fr; gap:16px; align-items:start; }
+        .tool-icon { width:54px; height:54px; border-radius:14px; background:var(--tech-purple); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:1.55rem; }
+        .danger { border:2px solid var(--comfort-clay); background:rgba(244,138,121,.06); }
+        .green-title { color:var(--comfort-green)!important; }
+        .clay-title { color:var(--comfort-clay)!important; }
+        code { font-family:'Lexend',sans-serif; color:var(--tech-cyan); }
+        @media (max-width:900px){ .pipeline{grid-template-columns:repeat(2,1fr);} .pipeline-step::after{display:none;} }
+        @media (max-width:600px){ .pipeline{grid-template-columns:1fr;} .tool-card{grid-template-columns:1fr;} }
+    </style>
+</head>
+
+<body>
+<a href="#main" class="skip-link">Pular para conteúdo principal</a>
+<header>
+  <div class="badge">Oficina Prática — IA + Interfaces</div>
+  <div style="margin-top:12px;font-size:.8rem;color:var(--comfort-oat);opacity:.8;font-weight:500;letter-spacing:.05em;">Laboratório de Design de Interfaces — DDI UFSM</div>
+  <h1>Do Superprompt ao Portfólio no Ar</h1>
+  <p class="subtitle">Um roteiro ultra didático para transformar uma engenharia de prompt em um sistema real: <strong>Google AI Studio → Supabase → GitHub → Vercel → redesenho humano da interface.</strong> A IA acelera o esqueleto; vocês precisam compreender, testar, publicar e depois assumir o design.</p>
+</header>
+<nav aria-label="Navegação da oficina"><ul>
+<li><a href="#mapa">Mapa</a></li><li><a href="#contas">Contas</a></li><li><a href="#materiais">Materiais</a></li><li><a href="#aistudio">AI Studio</a></li><li><a href="#superprompt">Superprompt</a></li><li><a href="#supabase">Supabase</a></li><li><a href="#github">GitHub</a></li><li><a href="#vercel">Vercel</a></li><li><a href="#redesign">Redesign</a></li><li><a href="#problemas">Problemas</a></li><li><a href="#copiloto">Copiloto de código</a></li><li><a href="#checklist">Checklist</a></li><li><a href="#exercicios">Exercícios</a></li>
+</ul></nav>
+<main id="main">
+
+<section id="mapa">
+<h2><span class="numero">1</span> Antes de Clicar: Entenda o Ecossistema</h2>
+<p>Nesta oficina, cada ferramenta tem uma função. O erro mais comum é achar que <strong>“a IA faz tudo”</strong>. Nós vamos separar o trabalho em camadas e saber exatamente onde cada coisa mora.</p>
+<div class="pipeline" aria-label="Fluxo do projeto">
+<div class="pipeline-step"><span class="pnum">01</span><b>IDEIA</b><small>Superprompt define escopo, conteúdo e requisitos.</small></div>
+<div class="pipeline-step"><span class="pnum">02</span><b>IA</b><small>AI Studio gera a primeira versão funcional.</small></div>
+<div class="pipeline-step"><span class="pnum">03</span><b>DADOS</b><small>Supabase cria persistência e backend.</small></div>
+<div class="pipeline-step"><span class="pnum">04</span><b>CÓDIGO</b><small>GitHub guarda arquivos e histórico.</small></div>
+<div class="pipeline-step"><span class="pnum">05</span><b>AR</b><small>Vercel publica e atualiza o projeto.</small></div>
+<div class="pipeline-step"><span class="pnum">06</span><b>DESIGN</b><small>Vocês redesenham conscientemente.</small></div>
+</div>
+<div class="card-grid">
+<div class="mini-card"><h4>🤖 Google AI Studio</h4><p><strong>Gerador + ambiente de construção.</strong> Recebe o superprompt, cria arquivos, executa e mostra preview.</p></div>
+<div class="mini-card"><h4>🗄️ Supabase</h4><p><strong>Backend.</strong> Banco PostgreSQL, autenticação, Storage e APIs.</p></div>
+<div class="mini-card"><h4>🐙 GitHub</h4><p><strong>Repositório.</strong> Guarda código e registra alterações em commits.</p></div>
+<div class="mini-card"><h4>▲ Vercel</h4><p><strong>Deploy.</strong> Lê o GitHub, constrói o projeto e cria uma URL pública.</p></div>
+</div>
+<div class="alert alert-info"><span class="alert-icon">🧠</span><div><h4 style="color:var(--tech-cyan)">Lógica pedagógica</h4><p>Primeiro fazemos a infraestrutura funcionar. <strong>Só depois redesenhamos.</strong> Assim fica possível separar problema de design, dados, código e deploy.</p></div></div>
+</section><hr>
+
+<section id="contas">
+<h2><span class="numero">2</span> Criar as Contas — Tudo Pronto Antes da Oficina</h2>
+<p>Antes de começar, abram as quatro plataformas em abas separadas e façam login. Não deixem cadastro e confirmação de e-mail para o meio da atividade.</p>
+<div class="card"><div class="tool-card"><div class="tool-icon">🤖</div><div><h4 style="color:var(--tech-cyan);margin-top:0">1. Google AI Studio</h4><p>Entre com a conta Google. Vamos usar o <strong>Build mode</strong> para gerar e iterar o projeto web.</p><div class="btn-row"><a class="btn btn-primary" href="https://aistudio.google.com/" target="_blank" rel="noopener">Abrir AI Studio ↗</a><a class="btn btn-secondary" href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener">Docs oficiais ↗</a></div></div></div></div>
+<div class="card"><div class="tool-card"><div class="tool-icon">🗄️</div><div><h4 style="color:var(--tech-cyan);margin-top:0">2. Supabase</h4><p>Crie a conta e abra o Dashboard. Cada aluno terá seu próprio projeto de dados.</p><div class="btn-row"><a class="btn btn-primary" href="https://supabase.com/dashboard" target="_blank" rel="noopener">Abrir Supabase ↗</a><a class="btn btn-secondary" href="https://supabase.com/docs" target="_blank" rel="noopener">Docs oficiais ↗</a></div></div></div></div>
+<div class="card"><div class="tool-card"><div class="tool-icon">🐙</div><div><h4 style="color:var(--tech-cyan);margin-top:0">3. GitHub</h4><p>Crie uma conta e escolha um nome de usuário apresentável profissionalmente.</p><div class="btn-row"><a class="btn btn-primary" href="https://github.com/signup" target="_blank" rel="noopener">Criar GitHub ↗</a><a class="btn btn-secondary" href="https://docs.github.com/en/get-started/start-your-journey/creating-a-repository-for-your-project-on-github" target="_blank" rel="noopener">Entender repositórios ↗</a></div></div></div></div>
+<div class="card"><div class="tool-card"><div class="tool-icon">▲</div><div><h4 style="color:var(--tech-cyan);margin-top:0">4. Vercel</h4><p>Crie a conta e conecte-a ao GitHub. Essa integração automatiza os próximos deploys.</p><div class="btn-row"><a class="btn btn-primary" href="https://vercel.com/signup" target="_blank" rel="noopener">Criar Vercel ↗</a><a class="btn btn-secondary" href="https://vercel.com/docs/getting-started-with-vercel" target="_blank" rel="noopener">Docs oficiais ↗</a></div></div></div></div>
+<div class="alert alert-success"><span class="alert-icon">✅</span><div><h4 class="green-title">Meta</h4><p>Quatro abas abertas, quatro contas acessíveis e nenhuma senha sendo recuperada no meio da aula.</p></div></div>
+</section><hr>
+
+<section id="materiais">
+<h2><span class="numero">3</span> Ponto de Partida — Superprompt + Aula de IA</h2>
+<p>O material-base está na pasta compartilhada. O <strong>superprompt deve ser copiado integralmente</strong>; não é para resumir nem retirar requisitos antes do primeiro teste.</p>
+<div class="card danger"><h4 class="clay-title" style="margin-top:0">📁 Pasta obrigatória da aula</h4><p>Aqui estão o <strong>superprompt do portfólio</strong> e a <strong>aula sobre IA</strong>.</p><div class="btn-row"><a class="btn btn-primary" href="https://drive.google.com/drive/folders/1u4oXxnKUFszRwXFjZOyheHCr_mXrvHJR" target="_blank" rel="noopener">Abrir Drive — Superprompt + Aula de IA ↗</a></div></div>
+<div class="passo"><span class="passo-numero">ANTES DE COPIAR</span><h4>Leia o superprompt uma vez</h4><p>Reconheça páginas, tipos de conteúdo, persistência, interface, acessibilidade, backend e comportamentos. Depois vocês precisarão verificar se a IA realmente entregou o que foi pedido.</p></div>
+</section><hr>
+
+<section id="aistudio">
+<h2><span class="numero">4</span> Google AI Studio — Tirando o Primeiro Protótipo do Papel</h2>
+<p>O <strong>Build mode</strong> recebe uma descrição em linguagem natural, gera os arquivos e mostra um preview. Para aplicações web, o AI Studio oferece ambiente full-stack e usa React como frontend padrão.</p>
+<div class="passo"><span class="passo-numero">PASSO 1</span><h4>Entre no Build mode</h4><ol><li>Abra o Google AI Studio.</li><li>Entre em <strong>Build</strong>.</li><li>Escolha a plataforma <strong>Web</strong>.</li><li>Crie um projeto novo e limpo.</li></ol></div>
+<div class="passo"><span class="passo-numero">PASSO 2</span><h4>Envie o superprompt completo</h4><p class="comando">1. Copie TODO o superprompt.
+2. Cole no Build mode.
+3. Não retire requisitos.
+4. Execute.
+5. Espere o preview aparecer.
+6. Leia o projeto antes de pedir mudanças.</p></div>
+<div class="alert alert-warm"><span class="alert-icon">⛔</span><div><h4 class="clay-title">Não comece pelo “deixa bonito”</h4><p>Nesta fase, a pergunta é: <strong>o sistema existe e funciona?</strong> A personalização visual profunda vem depois do primeiro deploy.</p></div></div>
+<h3>O que é “aceitável” na primeira geração?</h3><ul class="checklist"><li>O projeto abre sem tela branca?</li><li>As páginas/rotas essenciais existem?</li><li>Os botões principais respondem?</li><li>Não há erros evidentes no preview?</li><li>O código foi dividido em componentes?</li><li>Existe estrutura clara para dados?</li><li>Desktop e mobile podem ser testados?</li></ul>
+<div class="alert alert-info"><span class="alert-icon">💡</span><div><h4 style="color:var(--tech-cyan)">Se quebrar</h4><p>Peça para <strong>corrigir erros de build sem redesenhar nem remover requisitos</strong>. Um problema por vez.</p></div></div>
+</section><hr>
+
+<section id="superprompt">
+<h2><span class="numero">5</span> Trabalhar com a IA sem Perder o Controle</h2>
+<p>Depois da primeira geração, use ciclos curtos: <strong>testar → identificar um problema → pedir uma alteração específica → testar novamente</strong>.</p>
+<div class="card-grid"><div class="mini-card"><h4>1 problema</h4><p>Não misture banco, layout, tipografia e login no mesmo pedido.</p></div><div class="mini-card"><h4>1 instrução</h4><p>Diga exatamente o que pode mudar e o que deve permanecer intacto.</p></div><div class="mini-card"><h4>1 teste</h4><p>Depois da mudança, verifique se algo que funcionava deixou de funcionar.</p></div></div>
+<h3>Prompt de correção</h3><p class="comando">Analise o projeto atual antes de alterar qualquer arquivo.
+
+Corrija SOMENTE o problema abaixo:
+[DESCREVER O PROBLEMA]
+
+Não altere design, textos, navegação ou funcionalidades já funcionando.
+Depois: verifique build, regressões e informe quais arquivos foram alterados.</p>
+<h3>Prompt de implementação</h3><p class="comando">Implemente a funcionalidade abaixo preservando o que já funciona:
+[DESCREVER A FUNCIONALIDADE]
+
+Antes de editar:
+- identifique os arquivos envolvidos;
+- reutilize a arquitetura existente;
+- evite duplicação;
+- não hardcode credenciais;
+- não remova funcionalidades existentes.
+Ao final, teste o fluxo completo.</p>
+</section><hr>
+
+<section id="supabase">
+<h2><span class="numero">6</span> Supabase — Fazendo o Projeto Lembrar das Coisas</h2>
+<p>Agora vamos garantir <strong>persistência</strong>. O Supabase será o backend: banco PostgreSQL, autenticação e armazenamento de arquivos quando necessário.</p>
+<h3>6.1 Criar o projeto</h3>
+<div class="passo"><span class="passo-numero">PASSO 1</span><h4>Dashboard → New project</h4><ol><li>Entre no Dashboard.</li><li>Clique em <strong>New project</strong>.</li><li>Selecione/crie organização.</li><li>Nomeie o projeto.</li><li>Guarde a senha do banco em local seguro.</li><li>Escolha a região e conclua.</li></ol></div>
+<h3>6.2 Encontrar URL e chave</h3>
+<div class="passo"><span class="passo-numero">PASSO 2</span><h4>Connect ou Settings → API Keys</h4><p>Para o cliente, procure:</p><p class="comando">Project URL
+Publishable key → sb_publishable_...</p></div>
+<div class="card danger"><h4 class="clay-title" style="margin-top:0">🚨 REGRA ABSOLUTA SOBRE CHAVES</h4><table><thead><tr><th>Chave</th><th>Frontend?</th><th>Regra</th></tr></thead><tbody><tr><td><strong>Publishable</strong><br><code>sb_publishable_...</code></td><td>SIM</td><td>Baixo privilégio. Ainda exige RLS.</td></tr><tr><td><strong>anon</strong> legada</td><td>SIM</td><td>Versão antiga da publishable; prefira a nova em projetos novos.</td></tr><tr><td><strong>Secret</strong><br><code>sb_secret_...</code></td><td><strong>NÃO</strong></td><td>Nunca navegador, GitHub, documento, print ou prompt.</td></tr><tr><td><strong>service_role</strong> legada</td><td><strong>NÃO</strong></td><td>Privilégio elevado; somente backend seguro.</td></tr></tbody></table></div>
+<h3>6.3 Pedir a integração</h3>
+<p class="comando">Integre o projeto atual ao Supabase SEM alterar a interface visual nem remover funcionalidades.
+
+1. inspecione a arquitetura;
+2. use @supabase/supabase-js;
+3. crie um cliente Supabase centralizado;
+4. use variáveis de ambiente para URL + Publishable key;
+5. NÃO use Secret key nem service_role no frontend;
+6. crie .env.example sem valores reais;
+7. garanta que .env e .env.local não vão ao GitHub;
+8. trate loading, erro e ausência de dados;
+9. teste leitura e gravação;
+10. informe arquivos alterados.</p>
+<div class="alert alert-info"><span class="alert-icon">🔐</span><div><h4 style="color:var(--tech-cyan)">Variáveis</h4><p>Em Vite/React, nomes como <strong>VITE_SUPABASE_URL</strong> e <strong>VITE_SUPABASE_PUBLISHABLE_KEY</strong> são comuns. A IA deve primeiro verificar a configuração real.</p></div></div>
+<h3>6.4 RLS — Row Level Security</h3><p>A publishable key identifica o aplicativo; ela não substitui regras de acesso. <strong>Ative RLS nas tabelas</strong> e defina quem pode ler, criar, editar e excluir.</p>
+<div class="passo"><span class="passo-numero">OBRIGATÓRIO</span><h4>Para cada tabela, responda</h4><ol><li><strong>Quem pode ler?</strong></li><li><strong>Quem pode escrever?</strong></li><li><strong>Quem pode editar/excluir?</strong></li></ol></div>
+<h3>6.5 Teste mínimo</h3><ul class="checklist"><li>Crie um registro pelo sistema.</li><li>Recarregue.</li><li>O registro permanece?</li><li>Edite e recarregue.</li><li>A alteração permanece?</li><li>Teste exclusão, se houver.</li><li>Teste upload, se houver Storage.</li></ul>
+<div class="alert alert-success"><span class="alert-icon">✅</span><div><h4 class="green-title">Só avance quando...</h4><p>O projeto estiver lendo e gravando dados reais no Supabase.</p></div></div>
+</section><hr>
+
+<section id="github">
+<h2><span class="numero">7</span> GitHub — Criando uma Casa para o Código</h2>
+<p>GitHub não é “onde o site fica no ar”. É onde o <strong>código e sua história</strong> ficam guardados.</p>
+<div class="card-grid"><div class="mini-card"><h4>Repository</h4><p>A pasta principal do projeto.</p></div><div class="mini-card"><h4>Commit</h4><p>Um registro de alteração.</p></div><div class="mini-card"><h4>Branch</h4><p>Uma linha de desenvolvimento.</p></div><div class="mini-card"><h4>main</h4><p>Normalmente a versão principal.</p></div></div>
+<div class="passo"><span class="passo-numero">PASSO 1</span><h4>Verifique estabilidade</h4><p>Faça o último teste de navegação e persistência.</p></div>
+<div class="passo"><span class="passo-numero">PASSO 2</span><h4>Exporte do AI Studio para GitHub</h4><p>O Build mode permite exportar para um repositório GitHub. Autorize o acesso e crie/escolha o repositório do projeto.</p></div>
+<div class="passo"><span class="passo-numero">PASSO 3</span><h4>Abra o repositório e confira</h4><ul><li>Arquivos aparecem?</li><li>Existe package.json ou equivalente?</li><li>README existe?</li><li>Código está organizado?</li><li><strong>.env e chaves secretas NÃO aparecem?</strong></li></ul></div>
+<div class="alert alert-warm"><span class="alert-icon">🔥</span><div><h4 class="clay-title">Se uma chave secreta foi para o GitHub</h4><p>Apagar depois não basta. Considere comprometida, revogue/rotacione na plataforma de origem e substitua.</p></div></div>
+<p class="comando">feat: versão funcional inicial do portfólio com integração Supabase</p>
+</section><hr>
+
+<section id="vercel">
+<h2><span class="numero">8</span> Vercel — Colocando o Projeto no Ar</h2>
+<p>Conectaremos o repositório ao Vercel. Depois disso, novos pushes no Git conectado podem gerar deploys automaticamente.</p>
+<div class="passo"><span class="passo-numero">PASSO 1</span><h4>New Project</h4><p>Entre no Vercel com a conta conectada ao GitHub e crie um novo projeto.</p></div>
+<div class="passo"><span class="passo-numero">PASSO 2</span><h4>Importe o repositório</h4><ol><li>Encontre o repositório do portfólio.</li><li>Clique em <strong>Import</strong>.</li><li>Confira nome, framework e root directory.</li><li>Não faça Deploy ainda se faltam variáveis.</li></ol></div>
+<div class="passo"><span class="passo-numero">PASSO 3</span><h4>Environment Variables</h4><p>Cadastre com <strong>os mesmos nomes do código</strong>. Exemplo Vite:</p><p class="comando">VITE_SUPABASE_URL = https://SEU-PROJETO.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY = sb_publishable_...</p><p>Se houver outras variáveis legítimas no <strong>.env.example</strong>, cadastre-as também.</p></div>
+<div class="passo"><span class="passo-numero">PASSO 4</span><h4>Deploy</h4><ol><li>Clique em Deploy.</li><li>Acompanhe o Build.</li><li>Se falhar, leia a <strong>primeira mensagem de erro real</strong>.</li><li>Quando concluir, abra a URL.</li></ol></div>
+<div class="passo"><span class="passo-numero">PASSO 5</span><h4>Teste a URL real</h4><ul class="checklist"><li>Home abre?</li><li>Navegação funciona?</li><li>Dados Supabase carregam?</li><li>Cadastro/edição funciona?</li><li>Uploads aparecem?</li><li>Recarregar rota funciona?</li><li>Mobile funciona?</li></ul></div>
+<div class="alert alert-success"><span class="alert-icon">🌐</span><div><h4 class="green-title">Marco</h4><p>Agora o sistema tem <strong>backend próprio, repositório próprio e URL própria</strong>.</p></div></div>
+</section><hr>
+
+<section id="redesign">
+<h2><span class="numero">9</span> Agora Sim: Assumir o Design — Primeiro pelo Sistema, Depois pelo Código</h2>
+
+<p>
+O superprompt já foi construído para que o portfólio <strong>não seja um template visual fechado</strong>.
+Ele pede design tokens, grid configurável, spacing, tipografia, cores, radius, motion e um
+<strong>painel “Aparência”</strong>. Portanto, antes de editar arquivos, descubram o quanto já pode ser personalizado
+pelo próprio sistema que vocês acabaram de criar.
+</p>
+
+<div class="alert alert-info">
+<span class="alert-icon">✋</span>
+<div>
+<h4 style="color:var(--tech-cyan)">A IA entregou a infraestrutura. A autoria começa agora.</h4>
+<p>
+O objetivo não é reconstruir o sistema inteiro. É aproveitar a separação entre
+<strong>conteúdo + estrutura + design system + comportamento + dados</strong>
+para modificar a linguagem visual sem quebrar Supabase, autenticação, rotas ou funcionalidades.
+</p>
+</div>
+</div>
+
+<h3>9.1 Dois níveis de personalização</h3>
+
+<div class="card-grid">
+<div class="mini-card">
+<h4>🎛️ NÍVEL 1 — Painel Aparência</h4>
+<p>
+Primeiro testem o que o próprio sistema permite alterar sem código:
+<strong>cores, tipografia, largura, grid, gaps, formas, movimento e linguagem</strong>.
+Se o superprompt foi bem executado, parte importante da autoria já deve acontecer aqui.
+</p>
+</div>
+
+<div class="mini-card">
+<h4>🧑‍💻 NÍVEL 2 — Intervenção no código</h4>
+<p>
+Quando a proposta visual ultrapassar os controles existentes — grid assimétrico, navegação experimental,
+biblioteca própria de ícones, composição especial, novos componentes — aí sim investigamos
+<strong>onde o Design System foi implementado</strong>.
+</p>
+</div>
+</div>
+
+<div class="passo">
+<span class="passo-numero">PRIMEIRO</span>
+<h4>Entre em /admin → Aparência</h4>
+<p>Verifique se existem controles para:</p>
+<ul>
+<li>cores;</li>
+<li>tipografia;</li>
+<li>largura máxima;</li>
+<li>grid;</li>
+<li>gaps;</li>
+<li>border radius;</li>
+<li>sombras;</li>
+<li>motion;</li>
+<li>tom de voz / nomenclatura.</li>
+</ul>
+<p>
+Se a alteração desejada já é possível aqui, <strong>não existe razão para editar código</strong>.
+Use a infraestrutura configurável que o próprio projeto oferece.
+</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">DEPOIS</span>
+<h4>Quando o painel não for suficiente, investigue o código</h4>
+<p>
+Não suponha que “layout = um arquivo CSS”. O projeto pode ter sido implementado com:
+</p>
+<ul>
+<li>CSS global;</li>
+<li>CSS específico por componente;</li>
+<li>CSS Modules;</li>
+<li>CSS Custom Properties;</li>
+<li>Tailwind;</li>
+<li>ThemeProvider;</li>
+<li>arquivo de tokens em TypeScript;</li>
+<li>configurações persistidas em <code>theme_config</code>;</li>
+<li>ou uma combinação dessas estratégias.</li>
+</ul>
+<p><strong>Primeiro localize. Depois altere.</strong></p>
+</div>
+
+<h3>9.2 Mapa mental: intenção visual → camada provável</h3>
+
+<table>
+<thead><tr><th>Eu quero...</th><th>Procure primeiro por...</th><th>Conceitos que podem aparecer</th></tr></thead>
+<tbody>
+<tr><td><strong>Mudar a organização da página</strong></td><td>Layout/grid do container</td><td>grid, flex, grid-template-columns, max-width</td></tr>
+<tr><td><strong>Mais ou menos espaço</strong></td><td>Spacing tokens / estilos</td><td>gap, padding, margin, space-*</td></tr>
+<tr><td><strong>Mudar desktop/tablet/mobile</strong></td><td>Breakpoints / responsividade</td><td>@media, responsive classes, breakpoints</td></tr>
+<tr><td><strong>Mudar largura do conteúdo</strong></td><td>Container / layout token</td><td>max-width, width, inline-size</td></tr>
+<tr><td><strong>Mudar fontes</strong></td><td>Typography tokens / theme</td><td>font-family, font-size, line-height, clamp()</td></tr>
+<tr><td><strong>Mudar cores</strong></td><td>Color tokens / theme_config</td><td>CSS variables, theme, semantic colors</td></tr>
+<tr><td><strong>Trocar ícones</strong></td><td>Componentes/imports de iconografia</td><td>SVG, Icon component, assets/icons</td></tr>
+<tr><td><strong>Mudar formato dos cards</strong></td><td>ProjectCard + tokens</td><td>radius, border, shadow, aspect-ratio</td></tr>
+</tbody>
+</table>
+
+<h3>9.3 Inventário antes do redesign</h3>
+<ul class="checklist">
+<li>Quais páginas existem?</li>
+<li>Quais componentes se repetem?</li>
+<li>Existe um painel Aparência funcional?</li>
+<li>Quais decisões visuais já são tokens?</li>
+<li>Onde o projeto documenta o Design System?</li>
+<li>Quantos tamanhos tipográficos foram gerados?</li>
+<li>Quantos valores de spacing existem?</li>
+<li>A navegação está clara?</li>
+<li>Existem hover, focus, active, disabled, loading e error?</li>
+</ul>
+
+<h3>9.4 Reconstrua o Design System conscientemente</h3>
+<table>
+<thead><tr><th>Camada</th><th>Definir conscientemente</th></tr></thead>
+<tbody>
+<tr><td><strong>Cor</strong></td><td>Paleta, superfícies, feedbacks, contraste e estados.</td></tr>
+<tr><td><strong>Tipografia</strong></td><td>Famílias, escala, pesos, line-height e hierarquia.</td></tr>
+<tr><td><strong>Grid</strong></td><td>Colunas, margins, gutters, largura máxima e breakpoints.</td></tr>
+<tr><td><strong>Spacing</strong></td><td>Escala consistente para gap, margin e padding.</td></tr>
+<tr><td><strong>Forma</strong></td><td>Radius, bordas, elevação e densidade.</td></tr>
+<tr><td><strong>Iconografia</strong></td><td>Uma gramática coerente e biblioteca própria quando desejado.</td></tr>
+<tr><td><strong>Componentes</strong></td><td>Botões, inputs, cards, menus, modais e variações.</td></tr>
+<tr><td><strong>Acessibilidade</strong></td><td>Contraste, foco, semântica, teclado, labels e reduced motion.</td></tr>
+</tbody>
+</table>
+
+<div class="passo"><span class="passo-numero">RODADA 1</span><h4>Grid + spacing</h4><p>Corrija estrutura e ritmo primeiro.</p></div>
+<div class="passo"><span class="passo-numero">RODADA 2</span><h4>Tipografia + hierarquia</h4><p>Defina títulos, corpo, labels e line-height.</p></div>
+<div class="passo"><span class="passo-numero">RODADA 3</span><h4>Cor + contraste</h4><p>Trabalhe semanticamente com tokens e valide contraste.</p></div>
+<div class="passo"><span class="passo-numero">RODADA 4</span><h4>Iconografia + componentes + estados</h4><p>Integre a linguagem visual própria sem quebrar semântica e comportamento.</p></div>
+<div class="passo"><span class="passo-numero">RODADA 5</span><h4>Responsividade + acessibilidade</h4><p>Teste larguras, zoom, teclado, conteúdo extremo e reduced motion.</p></div>
+
+<div class="alert alert-warm">
+<span class="alert-icon">⚠️</span>
+<div>
+<h4 class="clay-title">Não façam “redesign por prompt”</h4>
+<p>
+A IA pode localizar, explicar e ajudar a implementar. Mas a decisão de design precisa ser de vocês.
+O aluno deve conseguir justificar <strong>o que mudou, onde mudou e por que mudou</strong>.
+</p>
+</div>
+</div>
+
+<h3>9.5 Pequeno acréscimo ao SUPERPROMPT — Mapa de Personalização</h3>
+
+<p>
+O superprompt já prevê uma arquitetura configurável. Acrescentem apenas este bloco para obrigar a IA
+a <strong>documentar os caminhos reais</strong> onde a linguagem visual foi implementada:
+</p>
+
+<p class="comando"># MAPA DE PERSONALIZAÇÃO DO DESIGN SYSTEM
+
+Organize a implementação visual de modo que um estudante iniciante consiga localizar facilmente onde alterar o design.
+
+Evite espalhar decisões visuais por dezenas de componentes.
+
+Sempre que a arquitetura utilizada permitir, separe claramente:
+
+- tokens;
+- tipografia;
+- cores;
+- spacing;
+- grid/layout;
+- breakpoints;
+- motion;
+- componentes.
+
+Ao final, documente no README um:
+
+## MAPA DE PERSONALIZAÇÃO
+
+Apresente no formato:
+
+O QUE QUERO ALTERAR → ARQUIVO/TOKEN → O QUE ELE CONTROLA
+
+Exemplo:
+
+Cor primária → [arquivo/token real]
+Tipografia → [arquivo/token real]
+Grid → [arquivo/token real]
+Largura máxima → [arquivo/token real]
+Gutters → [arquivo/token real]
+Spacing → [arquivo/token real]
+Border radius → [arquivo/token real]
+Ícones → [arquivo/componente real]
+Breakpoints → [arquivo/regra real]
+
+Não invente nomes fixos de arquivos antes da implementação.
+Documente os caminhos REAIS utilizados no projeto gerado.</p>
+
+<div class="alert alert-success">
+<span class="alert-icon">✅</span>
+<div>
+<h4 class="green-title">O que queremos encontrar no README</h4>
+<p>
+Algo como: <strong>“Grid → src/styles/layout.css → controla colunas e container”</strong>,
+ou <strong>“Cores → src/theme/tokens.ts → controla tokens semânticos”</strong>.
+Os nomes podem variar; o importante é o mapa refletir o projeto REAL.
+</p>
+</div>
+</div>
+</section><hr>
+
+<section id="problemas">
+<h2><span class="numero">10</span> Diagnóstico — Em Qual Camada Está o Problema?</h2>
+<table><thead><tr><th>Sintoma</th><th>Camada provável</th><th>Primeiro teste</th></tr></thead><tbody>
+<tr><td>Preview AI Studio não abre.</td><td>Build/código</td><td>Leia o erro e corrija sem redesenhar.</td></tr>
+<tr><td>Site abre, dados não aparecem.</td><td>Supabase/env/RLS</td><td>Confira URL, chave, RLS e rede.</td></tr>
+<tr><td>Funciona no AI Studio, quebra no Vercel.</td><td>Deploy/env</td><td>Compare variáveis e Build Log.</td></tr>
+<tr><td>Vercel não encontra repo.</td><td>GitHub/permissão</td><td>Confirme acesso ao repositório.</td></tr>
+<tr><td>GitHub mudou, site não.</td><td>Deploy/branch</td><td>Veja commit, branch e deployment.</td></tr>
+<tr><td>Upload some depois.</td><td>Persistência/Storage</td><td>Confira arquivo, URL e política.</td></tr>
+<tr><td>Interface degradou após muitas instruções.</td><td>Processo</td><td>Volte ao commit estável.</td></tr>
+</tbody></table>
+<div class="card"><h4 style="color:var(--comfort-oat);margin-top:0">Pergunta-chave</h4><p style="font-size:1.1rem;margin-bottom:0"><strong>“Em qual camada esse problema está acontecendo?”</strong><br>IA? Código? Banco? Permissão? GitHub? Deploy? Interface?</p></div>
+</section><hr>
+
+<section id="checklist">
+<h2><span class="numero">11</span> Checklist de Saída — Não Pule Etapas</h2>
+<h3>Contas</h3><ul class="checklist"><li>AI Studio acessível?</li><li>Supabase acessível?</li><li>GitHub acessível?</li><li>Vercel acessível?</li><li>Drive da aula aberto?</li></ul>
+<h3>IA</h3><ul class="checklist"><li>Superprompt integral foi colado?</li><li>Projeto gera preview?</li><li>Erros de build foram resolvidos antes da estética?</li><li>Sei quais páginas/componentes existem?</li></ul>
+<h3>Supabase</h3><ul class="checklist"><li>Projeto próprio criado?</li><li>Project URL + Publishable key identificadas?</li><li>Nenhuma Secret/service_role no frontend?</li><li>RLS configurado?</li><li>Dados persistem após recarregar?</li></ul>
+<h3>GitHub</h3><ul class="checklist"><li>Repo contém projeto completo?</li><li>Nenhum .env/chave real commitado?</li><li>Consigo localizar o último commit?</li><li>Entendo o que é main?</li></ul>
+<h3>Vercel</h3><ul class="checklist"><li>Repo certo importado?</li><li>Environment Variables cadastradas?</li><li>Build terminou?</li><li>Tenho URL pública?</li><li>Sistema funciona nessa URL?</li></ul>
+<h3>Design</h3><ul class="checklist"><li>Testei primeiro o que já pode ser alterado no Painel Aparência?</li><li>Localizei o Mapa de Personalização no README?</li><li>Se precisei editar código, identifiquei onde o Design System realmente está implementado?</li><li>Grid definido?</li><li>Spacing definido?</li><li>Tipografia definida?</li><li>Cores e contraste definidos?</li><li>Iconografia e componentes/estados padronizados?</li><li>Mobile, teclado e zoom testados?</li><li>Consigo explicar onde cada decisão vive no sistema?</li><li>Consigo justificar decisões sem dizer “porque a IA fez”?</li></ul>
+</section><hr>
+
+<section id="exercicios">
+<h2><span class="numero">12</span> Exercícios — Cada Etapa Deixa uma Evidência</h2>
+<div class="exercicio-card"><h4>🏋️ Exercício 1 — Mapa do ecossistema</h4><p><strong>Entrega:</strong> explique em uma frase a função de AI Studio, Supabase, GitHub e Vercel.</p></div>
+<div class="exercicio-card"><h4>🏋️ Exercício 2 — Primeira versão funcional</h4><p><strong>Entrega:</strong> screenshot do preview + 5 funcionalidades existentes + 3 problemas a corrigir.</p></div>
+<div class="exercicio-card"><h4>🏋️ Exercício 3 — Prova de persistência</h4><p><strong>Entrega:</strong> criar um dado, recarregar e demonstrar que continua no Supabase.</p></div>
+<div class="exercicio-card"><h4>🏋️ Exercício 4 — Primeiro commit</h4><p><strong>Entrega:</strong> link do GitHub + commit que representa a primeira versão funcional.</p></div>
+<div class="exercicio-card"><h4>🏋️ Exercício 5 — Deploy real</h4><p><strong>Entrega:</strong> URL do Vercel funcionando em desktop e celular.</p></div>
+<div class="exercicio-card"><h4>🎯 Desafio Final — “DesIAficar” a interface</h4><p>Escolha uma tela gerada pela IA e reconstrua manualmente sua linguagem visual. Documente <strong>antes → decisões → depois</strong>.</p><ul><li>Grid.</li><li>Spacing.</li><li>Tipografia.</li><li>Paleta.</li><li>Iconografia.</li><li>Componentes.</li><li>Estados.</li><li>Acessibilidade.</li></ul></div>
+<div class="alert alert-success"><span class="alert-icon">🚀</span><div><h4 class="green-title">Resultado esperado</h4><p>Não apenas “um site feito por IA”, mas um sistema que vocês sabem <strong>gerar, conectar, versionar, publicar, diagnosticar e redesenhar</strong>.</p></div></div>
+</section><hr>
+
+
+<section id="copiloto">
+<h2><span class="numero">13</span> Antigravity, VS Code ou ChatGPT — Localizar, Compreender e Alterar com Precisão</h2>
+
+<p>
+Depois que o sistema está no ar e a autoria visual começa, podemos usar um copiloto de código.
+Mas sua função agora é diferente: <strong>ele não deve reinventar o projeto</strong>.
+Ele deve nos ajudar a compreender a arquitetura existente e executar alterações delimitadas.
+</p>
+
+<div class="alert alert-info">
+<span class="alert-icon">🧭</span>
+<div>
+<h4 style="color:var(--tech-cyan)">Regra-mãe desta fase</h4>
+<p>
+<strong>Não comece pedindo “altere o CSS”.</strong>
+Comece pedindo: <strong>“onde este projeto implementa o Design System e o layout?”</strong>
+Só depois autorize a edição.
+</p>
+</div>
+</div>
+
+<h3>13.1 Três caminhos possíveis</h3>
+<div class="card-grid">
+<div class="mini-card">
+<h4>🛰️ Google Antigravity</h4>
+<p>Útil quando queremos um agente inspecionando o projeto, planejando alterações e atuando sobre arquivos reais.</p>
+</div>
+<div class="mini-card">
+<h4>💻 Visual Studio Code + Copilot</h4>
+<p>O editor mantém o workspace visível; os recursos de IA podem responder sobre arquivos e ajudar a editar o código.</p>
+</div>
+<div class="mini-card">
+<h4>🤖 ChatGPT + Codex</h4>
+<p>Útil para analisar projetos, explicar arquitetura, localizar arquivos e executar/refatorar tarefas de código.</p>
+</div>
+</div>
+
+<h3>13.2 Antes de qualquer edição: encontre o Design System REAL</h3>
+
+<p class="comando">Analise o projeto REAL que foi gerado a partir do nosso superprompt.
+
+Quero começar a personalizar o DESIGN SYSTEM.
+
+NÃO ALTERE NADA AINDA.
+
+Localize no projeto onde estão definidos:
+
+1. cores;
+2. tipografia;
+3. spacing;
+4. número de colunas;
+5. largura máxima do conteúdo;
+6. margins;
+7. gutters;
+8. gaps;
+9. breakpoints;
+10. grid dos projetos;
+11. proporção/formato dos cards;
+12. ícones;
+13. motion.
+
+Verifique qual estratégia o projeto realmente usa:
+- CSS global;
+- CSS por componente;
+- CSS Modules;
+- CSS Custom Properties;
+- Tailwind;
+- ThemeProvider;
+- tokens em TypeScript/JavaScript;
+- theme_config vindo do Supabase;
+- ou outro mecanismo.
+
+Para cada item, responda:
+
+O QUE QUERO ALTERAR → ARQUIVO/TOKEN REAL → O QUE ELE CONTROLA
+
+Não invente nomes de arquivos.
+Não faça nenhuma alteração ainda.</p>
+
+<div class="alert alert-success">
+<span class="alert-icon">💡</span>
+<div>
+<h4 class="green-title">Por que fazemos isso?</h4>
+<p>
+Porque dois alunos podem ter usado o mesmo superprompt e receber arquiteturas diferentes.
+A lógica pedagógica precisa sobreviver à implementação: <strong>localizar antes de editar</strong>.
+</p>
+</div>
+</div>
+
+<h3>13.3 Exemplo — “Vamos mexer no layout do projeto”</h3>
+
+<div class="card">
+<h4 style="color:var(--comfort-oat);margin-top:0">Situação</h4>
+<p>
+Vocês decidiram aplicar o sistema de grid estudado na oficina:
+<strong>12 colunas no desktop, 8 no tablet e 4 no mobile</strong>.
+Talvez isso esteja em um CSS. Talvez esteja em Tailwind. Talvez esteja em tokens ou num componente de layout.
+Primeiro descobrimos.
+</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">PASSO 1 — LOCALIZAR</span>
+<h4>Peça um mapa do layout atual</h4>
+<p class="comando">Quero alterar o LAYOUT deste projeto.
+
+Antes de mudar qualquer coisa:
+
+1. identifique qual arquivo/componente renderiza a página de Projetos;
+2. identifique onde o layout visual dessa página é controlado;
+3. verifique se usa CSS, CSS Modules, Tailwind, ThemeProvider, tokens ou outro sistema;
+4. localize onde estão definidos:
+   - grid;
+   - largura máxima;
+   - margins;
+   - gutters;
+   - gaps;
+   - breakpoints;
+   - disposição dos cards;
+5. diga se algum desses valores vem do painel Aparência ou do Supabase.
+
+NÃO ALTERE NADA AINDA.
+
+Responda no formato:
+ARQUIVO/TOKEN → REGRA ATUAL → O QUE CONTROLA.</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">PASSO 2 — DECIDIR</span>
+<h4>Compare a arquitetura atual com a intenção de design</h4>
+<p class="comando">Minha decisão de design será:
+
+DESKTOP
+- 12 colunas
+- margin lateral 80px
+- gutter 24px
+
+TABLET
+- 8 colunas
+- margin 32px
+- gutter 24px
+
+MOBILE
+- 4 colunas
+- margin 16px
+- gutter 16px
+
+Antes de editar, diga quais regras/tokens precisam mudar e quais NÃO precisam mudar.
+
+Preserve:
+- Supabase;
+- conteúdo;
+- rotas;
+- autenticação;
+- funcionalidades;
+- dados.</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">PASSO 3 — ALTERAR</span>
+<h4>Autorize a menor alteração possível</h4>
+<p class="comando">Agora implemente APENAS esse novo sistema de layout.
+
+REGRAS:
+- reutilize a arquitetura existente;
+- prefira alterar tokens/regras centrais em vez de espalhar novos valores;
+- não reescreva componentes sem necessidade;
+- não altere conteúdo;
+- não altere backend;
+- não altere rotas;
+- preserve acessibilidade;
+- preserve estados e funcionalidades existentes;
+- não faça nenhuma outra mudança estética.</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">PASSO 4 — ENTENDER</span>
+<h4>Peça os arquivos e a explicação</h4>
+<p class="comando">Ao terminar:
+
+1. liste todos os arquivos alterados;
+2. diga o caminho exato de cada arquivo;
+3. explique o que mudou no layout;
+4. mostre quais tokens/regras foram alterados;
+5. se eu precisar editar manualmente, forneça o arquivo COMPLETO;
+6. teste desktop, tablet e mobile;
+7. valide o build;
+8. informe qualquer regressão ou problema restante.</p>
+</div>
+
+<h3>13.4 Exemplo — Biblioteca própria de ícones</h3>
+
+<div class="card">
+<h4 style="color:var(--comfort-oat);margin-top:0">Situação</h4>
+<p>Vocês criaram uma biblioteca autoral e salvaram, por exemplo, em:</p>
+<p class="comando">src/assets/icons/</p>
+<p>Queremos integrar os SVGs sem alterar layout, rotas, tipografia ou comportamento.</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">LOCALIZAR</span>
+<h4>Descubra onde os ícones atuais entram</h4>
+<p class="comando">Minha biblioteca de ícones está em:
+
+src/assets/icons/
+
+Analise a estrutura REAL do projeto.
+
+Quero substituir APENAS os ícones usados na navegação principal.
+
+1. encontre o arquivo/componente que controla a navegação;
+2. diga seu caminho exato;
+3. identifique como os ícones atuais são importados;
+4. identifique quais SVGs da minha pasta podem substituir cada item;
+5. verifique acessibilidade/aria-label;
+6. NÃO ALTERE NADA AINDA.</p>
+</div>
+
+<div class="passo">
+<span class="passo-numero">IMPLEMENTAR</span>
+<h4>Depois autorize a integração</h4>
+<p class="comando">Agora integre a biblioteca própria.
+
+REGRAS:
+- use os SVGs existentes em src/assets/icons;
+- não redesenhe os ícones;
+- não use outra biblioteca;
+- preserve textos, rotas, grid, spacing, tipografia e cores;
+- preserve aria-labels;
+- altere apenas os arquivos estritamente necessários;
+- se precisar criar um componente Icon, explique por quê.
+
+Ao final:
+- liste arquivos alterados;
+- entregue os arquivos completos;
+- informe a pasta exata;
+- valide o build.</p>
+</div>
+
+<h3>13.5 Outros bons pedidos nesta fase</h3>
+
+<div class="exercicio-card">
+<h4>🔤 Trocar tipografia</h4>
+<p class="comando">Localize onde a tipografia global é definida.
+Não altere nada ainda.
+Mostre arquivos/tokens que controlam font-family, pesos, escala e line-height.</p>
+</div>
+
+<div class="exercicio-card">
+<h4>🎨 Trocar paleta</h4>
+<p class="comando">Localize os tokens de cor.
+Verifique se há cores hardcoded fora do Design System.
+Antes de alterar, entregue:
+ARQUIVO → VALOR/TOKEN → FUNÇÃO SEMÂNTICA.</p>
+</div>
+
+<div class="exercicio-card">
+<h4>🧩 Integrar componente novo</h4>
+<p class="comando">Criei src/components/ProjectCard.
+Analise onde os cards atuais são renderizados.
+Mostre qual componente deve ser substituído e quais props/dados precisam ser preservados.
+Não altere nada ainda.</p>
+</div>
+
+<h3>13.6 Fluxo para qualquer alteração assistida</h3>
+
+<div class="pipeline" aria-label="Fluxo para alteração assistida por IA">
+<div class="pipeline-step"><span class="pnum">01</span><b>INTENÇÃO</b><small>Defina o que quer mudar visualmente.</small></div>
+<div class="pipeline-step"><span class="pnum">02</span><b>LOCALIZE</b><small>Descubra onde isso vive no projeto.</small></div>
+<div class="pipeline-step"><span class="pnum">03</span><b>ENTENDA</b><small>Leia arquivo, token e dependências.</small></div>
+<div class="pipeline-step"><span class="pnum">04</span><b>ALTERE</b><small>Faça a menor mudança possível.</small></div>
+<div class="pipeline-step"><span class="pnum">05</span><b>TESTE</b><small>Build, desktop, mobile e regressões.</small></div>
+<div class="pipeline-step"><span class="pnum">06</span><b>COMMIT</b><small>Registre a versão estável.</small></div>
+</div>
+
+<div class="alert alert-success">
+<span class="alert-icon">🧠</span>
+<div>
+<h4 class="green-title">O objetivo pedagógico</h4>
+<p>
+Ao perguntar <strong>“onde isso vive?”</strong> antes de <strong>“mude isso”</strong>,
+o aluno começa a compreender a anatomia do sistema.
+O copiloto funciona como <strong>tutor técnico + assistente de implementação</strong>, não como caixa-preta.
+</p>
+</div>
+</div>
+
+<h3>13.7 Checklist antes de aceitar a alteração</h3>
+<ul class="checklist">
+<li>A ferramenta analisou arquivos reais?</li>
+<li>Os caminhos citados existem?</li>
+<li>Identificamos se a mudança podia ser feita pelo Painel Aparência antes de editar código?</li>
+<li>Sabemos se o projeto usa CSS, Tailwind, tokens, ThemeProvider ou outra estratégia?</li>
+<li>A alteração reutiliza o Design System existente?</li>
+<li>Somente os arquivos necessários foram modificados?</li>
+<li>Nenhuma funcionalidade anterior desapareceu?</li>
+<li>Build funciona?</li>
+<li>Vercel funciona?</li>
+<li>Mobile funciona?</li>
+<li>Acessibilidade foi preservada?</li>
+<li>O aluno consegue explicar o que mudou?</li>
+<li>Foi criado um novo commit após validar?</li>
+</ul>
+
+<div class="btn-row">
+<a class="btn btn-primary" href="https://antigravity.google/" target="_blank" rel="noopener">Google Antigravity ↗</a>
+<a class="btn btn-secondary" href="https://code.visualstudio.com/docs/agents/overview" target="_blank" rel="noopener">VS Code — Agents ↗</a>
+<a class="btn btn-secondary" href="https://openai.com/codex/" target="_blank" rel="noopener">ChatGPT / Codex ↗</a>
+</div>
+</section><hr>
+
+<section id="referencias">
+<h2><span class="numero">14</span> Links de Trabalho e Referências Oficiais</h2>
+<div class="card"><h4 style="color:var(--tech-cyan);margin-top:0">Materiais da disciplina</h4><div class="btn-row"><a class="btn btn-primary" href="https://drive.google.com/drive/folders/1u4oXxnKUFszRwXFjZOyheHCr_mXrvHJR" target="_blank" rel="noopener">Drive — Superprompt + Aula de IA ↗</a></div></div>
+<div class="card"><h4 style="color:var(--comfort-oat);margin-top:0">Documentação oficial</h4><ul><li><a style="color:var(--tech-cyan)" href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener">Google AI Studio — Build apps</a></li><li><a style="color:var(--tech-cyan)" href="https://supabase.com/docs/guides/getting-started/api-keys" target="_blank" rel="noopener">Supabase — API keys</a></li><li><a style="color:var(--tech-cyan)" href="https://supabase.com/docs/guides/getting-started/quickstarts/reactjs" target="_blank" rel="noopener">Supabase — React quickstart</a></li><li><a style="color:var(--tech-cyan)" href="https://docs.github.com/en/get-started/start-your-journey/creating-a-repository-for-your-project-on-github" target="_blank" rel="noopener">GitHub — Create a repository</a></li><li><a style="color:var(--tech-cyan)" href="https://vercel.com/docs/git" target="_blank" rel="noopener">Vercel — Deploy Git repositories</a></li><li><a style="color:var(--tech-cyan)" href="https://vercel.com/docs/environment-variables" target="_blank" rel="noopener">Vercel — Environment Variables</a></li>
+<li><a style="color:var(--tech-cyan)" href="https://antigravity.google/" target="_blank" rel="noopener">Google Antigravity — plataforma oficial</a></li>
+<li><a style="color:var(--tech-cyan)" href="https://code.visualstudio.com/docs/agents/overview" target="_blank" rel="noopener">Visual Studio Code — Agents</a></li>
+<li><a style="color:var(--tech-cyan)" href="https://code.visualstudio.com/docs/chat/chat-overview" target="_blank" rel="noopener">Visual Studio Code — Chat</a></li>
+<li><a style="color:var(--tech-cyan)" href="https://openai.com/codex/" target="_blank" rel="noopener">OpenAI — Codex in ChatGPT</a></li>
+</ul></div>
+</section>
+</main>
+<footer><strong>Laboratório de Design de Interfaces — DDI / UFSM</strong><br>Oficina: Do Superprompt ao Portfólio no Ar — IA, Backend, Versionamento, Deploy e Redesign<br>Material didático para experimentação crítica com IA e Design de Interfaces.</footer>
+</body>
+</html>

@@ -33,9 +33,9 @@
   --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --color-tech-cyan: var(--tech-cyan);
   --color-tech-blue: var(--tech-blue);
   --color-comfort-oat: var(--comfort-oat);
